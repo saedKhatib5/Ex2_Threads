@@ -5,7 +5,7 @@ public class TestThreadCheckArray {
         try (Scanner input = new Scanner(System.in)) {
             Thread thread1, thread2;
             System.out.println("Enter array size");
-            int num  = input.nextInt();
+            int num = input.nextInt();
             int[] array = new int[num];
             System.out.println("Enter numbers for array");
 
@@ -33,7 +33,7 @@ public class TestThreadCheckArray {
             }
             System.out.println("Solution for b : " + sd.getB() + ",n = " + sd.getArray().length);
             System.out.print("I:    ");
-            for(int index = 0; index < sd.getArray().length ; index++)
+            for (int index = 0; index < sd.getArray().length; index++)
                 System.out.print(index + "    ");
             System.out.println();
             System.out.print("A:    ");
