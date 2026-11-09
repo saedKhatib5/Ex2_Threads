@@ -1,6 +1,11 @@
+import java.util.ArrayList;
+
+/**
+ * This class represents a thread that checks an array of integers for a specific condition.
+ */
 public class ThreadCheckArray implements Runnable {
     private boolean flag;
-    private List<Integer> winArray = new ArrayList<>();
+    private boolean[] winArray;
     SharedData sd;
     ArrayList<Integer> array;
     int b;
@@ -13,7 +18,7 @@ public class ThreadCheckArray implements Runnable {
     public ThreadCheckArray(SharedData sd) {
         this.sd = sd;
         synchronized (sd) {
-            array = new ArrayList<>(Arrays.asList(sd.getArray()));
+            array = new ArrayList<>(sd.getArray());
             b = sd.getB();
         }
         winArray = new boolean[array.size()];
@@ -29,17 +34,17 @@ public class ThreadCheckArray implements Runnable {
         synchronized (sd) {
             if (sd.getFlag()) return;
         }
-        if (n == 0) {
-            if (b == 0 || b == array.get(n)) {
+        if (n == 1) {
+            if(b == 0 || b == array.get(n-1)) {
                 flag = true;
                 synchronized (sd) { sd.setFlag(true); }
             }
-            if (b == array.get(n)) winArray[n] = true;
+            if (b == array.get(n-1)) winArray[n-1] = true;
             return;
         }
 
-        rec(n-1, b - array.get(n));
-        if (flag) winArray[n] = true;
+        rec(n-1, b - array.get(n-1));
+        if (flag) winArray[n-1] = true;
         synchronized (sd) {
             if (sd.getFlag()) return;
         }
@@ -47,7 +52,7 @@ public class ThreadCheckArray implements Runnable {
     }
 
     /**
-     * Runs the thread to check if the given value 'b' can be formed by subtracting elements from the array.
+     * Runs the thread and checks the condition.
      */
     public void run() {
         if (array.size() != 1)
